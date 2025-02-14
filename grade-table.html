@@ -3,6 +3,25 @@
   <head>
     <title>Calculus Final Exams Table</title>
     <meta charset="UTF-8" />
+    <style>
+      table {
+        width: 50%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-family: Arial, sans-serif;
+      }
+      th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      tfoot {
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body>
     <table>
@@ -12,9 +31,9 @@
 
       <thead>     
         <tr>
-          <th>Last Name</th>
-          <th>First Name</th>
-          <th>Grade</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">First Name</th>
+          <th scope="col">Grade</th>
         </tr>
       </thead>
 
@@ -52,7 +71,7 @@
 
       <tfoot>
         <tr>
-          <td colspan="2">Average Grade</td>
+          <th colspan="2">Average Grade</th>
           <td>78.8</td>
         </tr>
       </tfoot>
