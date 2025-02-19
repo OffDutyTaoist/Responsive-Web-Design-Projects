@@ -1,0 +1,31 @@
+.todo-list {
+    list-style: none;
+    padding: 0;
+}
+
+.sub-item {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.sub-item-link {
+    text-decoration: none;
+    color: #007BFF;
+    transition: color 0.3s, outline 0.3s;
+}
+
+.sub-item-link:visited {
+    color: #6f42c1;
+}
+
+.sub-item-link:hover {
+    color: #28a745;
+}
+
+.sub-item-link:active {
+    color: #dc3545;
+}
+
+.sub-item-link:focus {
+    outline: 2px solid #ff9800;
+}
