@@ -1,0 +1,53 @@
+/* Blog Post Card Styles */
+
+/* Blog card container styles */
+.blog-post-card {
+    background-color: white;
+    border-radius: 12px;
+    width: 300px;
+    text-align: center;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Post image styles */
+.post-img {
+    width: 100%;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Post content padding */
+.post-content {
+    padding: 16px;
+}
+
+/* Post title and excerpt styles */
+.post-title {
+    color: #333;
+    margin: 0 0 8px;
+}
+
+.post-excerpt {
+    color: #555;
+    margin: 0 0 16px;
+}
+
+/* Read more button styles */
+.read-more {
+    color: white;
+    background-color: #007BFF;
+    margin: 8px 0;
+    padding: 10px 20px;
+    display: inline-block;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.read-more:hover {
+    background-color: #0056b3;
+}
+
+.read-more:focus {
+    outline: 2px solid #ff9800;
+}
