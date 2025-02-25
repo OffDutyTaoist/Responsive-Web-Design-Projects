@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Army Battle Animation – Classic & Double Elimination</title>
+  <style>
+    body {
+      background: #222;
+      color: #fff;
+      font-family: sans-serif;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    #controls {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 100;
+    }
+    #battlefield {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(135deg, #3a3a3a, #111);
+    }
+    .fighter {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    .our {
+      background: #4caf50;
+    }
+    .enemy {
+      background: #f44336;
+    }
+    .winner-banner {
+      position: absolute;
+      font-size: 48px;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 2px 2px 4px #000;
+      width: 100%;
+      text-align: center;
+      top: 20%;
+      z-index: 10;
+    }
+    .move-in {
+      transition: transform 0.5s ease-in-out;
+    }
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(90deg); opacity: 0; }
+    }
+    .fall {
+      animation: fall 0.8s forwards;
+    }
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <label for="testCaseSelect">Choose battle mode/test case:</label>
+    <select id="testCaseSelect">
+      <option value="classic:a|b">a vs. b</option>
+      <option value="classic:q|b">q vs. b</option>
+      <option value="classic:a|a">a vs. a</option>
+      <option value="classic:iGnfQxJYy|MlHGtsGF">iGnfQxJYy vs. MlHGtsGF</option>
+      <option value="classic:freeCodeCamp|OdinProject">freeCodeCamp vs. OdinProject</option>
+      <option value="classic:Naomi|Jeremy">Naomi vs. Jeremy</option>
+      <option value="classic:Naomi|plamoni">Naomi vs. plamoni</option>
+      <option value="classic:Naomi|Riley">Naomi vs. Riley</option>
+      <option value="double:freeCodeCamp|OdinProject">Double Elimination: freeCodeCamp vs. OdinProject</option>
+    </select>
+    <button id="startBattle">Start Battle</button>
+  </div>
+  
+  <div id="battlefield"></div>
+  
+  <script>
+    const battlefield = document.getElementById("battlefield");
+    const testCaseSelect = document.getElementById("testCaseSelect");
+    const startBattleBtn = document.getElementById("startBattle");
+
+    function charValue(c) {
+      if (c >= 'a' && c <= 'z') {
+        return c.charCodeAt(0) - 'a'.charCodeAt(0) + 1;
+      } else if (c >= 'A' && c <= 'Z') {
+        return c.charCodeAt(0) - 'A'.charCodeAt(0) + 27;
+      }
+      return 0;
+    }
+
+    function createFighter(letter, side) {
+      const div = document.createElement("div");
+      div.classList.add("fighter", side);
+      div.textContent = letter;
+      div.style.top = "40%";
+      if (side === "our") {
+        div.style.left = "10%";
+      } else {
+        div.style.left = "80%";
+      }
+      return div;
+    }
+
+    function showFinalBanner(result, ourArmyOrig, enemyArmyOrig) {
+      const banner = document.createElement("div");
+      banner.classList.add("winner-banner");
+      if (result === "win") {
+        banner.textContent = "Winner: Our Army!";
+      } else if (result === "lose") {
+        if (ourArmyOrig === "freeCodeCamp" && enemyArmyOrig === "OdinProject") {
+          banner.textContent = "Lose (Don't tell Quincy...)";
+        } else if (ourArmyOrig === "Naomi" && enemyArmyOrig === "Riley") {
+          banner.textContent = "Lose (I guess I should not fight our mods...)";
+        } else {
+          banner.textContent = "Lose";
+        }
+      } else {
+        banner.textContent = "Tie (Now we'll never know if girls are better than boys...)";
+      }
+      battlefield.appendChild(banner);
+    }
+
+    let ourArmyClassic = "";
+    let enemyArmyClassic = "";
+    let ourWins = 0;
+    let enemyWins = 0;
+    let round = 0;
+    let totalRounds = 0;
+
+    function animateRoundClassic() {
+      if (round >= totalRounds) {
+        if (ourWins > enemyWins) {
+          showFinalBanner("win", ourArmyClassic, enemyArmyClassic);
+        } else if (enemyWins > ourWins) {
+          showFinalBanner("lose", ourArmyClassic, enemyArmyClassic);
+        } else {
+          showFinalBanner("tie", ourArmyClassic, enemyArmyClassic);
+        }
+        return;
+      }
+      
+      const ourChar = ourArmyClassic[round] || "";
+      const enemyChar = enemyArmyClassic[round] || "";
+      const ourValue = ourChar ? charValue(ourChar) : 0;
+      const enemyValue = enemyChar ? charValue(enemyChar) : 0;
+      
+      const ourFighter = createFighter(ourChar, "our");
+      const enemyFighter = createFighter(enemyChar, "enemy");
+      battlefield.appendChild(ourFighter);
+      battlefield.appendChild(enemyFighter);
+      
+      ourFighter.offsetWidth;
+      enemyFighter.offsetWidth;
+      
+      ourFighter.classList.add("move-in");
+      enemyFighter.classList.add("move-in");
+      ourFighter.style.transform = "translateX(150px)";
+      enemyFighter.style.transform = "translateX(-150px)";
+      
+      setTimeout(() => {
+        if (ourValue > enemyValue) {
+          ourWins++;
+          enemyFighter.classList.add("fall");
+        } else if (enemyValue > ourValue) {
+          enemyWins++;
+          ourFighter.classList.add("fall");
+        } else {
+          ourFighter.classList.add("fall");
+          enemyFighter.classList.add("fall");
+        }
+        setTimeout(() => {
+          ourFighter.remove();
+          enemyFighter.remove();
+          round++;
+          animateRoundClassic();
+        }, 1000);
+      }, 600);
+    }
+
+    let ourTeam = [];
+    let enemyTeam = [];
+    let ourArmyOrig = "";
+    let enemyArmyOrig = "";
+
+    function simulateDoubleElimination() {
+      if (ourTeam.length === 0 || enemyTeam.length === 0) {
+        if (ourTeam.length > enemyTeam.length) {
+          showFinalBanner("win", ourArmyOrig, enemyArmyOrig);
+        } else if (enemyTeam.length > ourTeam.length) {
+          showFinalBanner("lose", ourArmyOrig, enemyArmyOrig);
+        } else {
+          showFinalBanner("tie", ourArmyOrig, enemyArmyOrig);
+        }
+        return;
+      }
+      
+      const ourIndex = Math.floor(Math.random() * ourTeam.length);
+      const enemyIndex = Math.floor(Math.random() * enemyTeam.length);
+      const ourFighterObj = ourTeam.splice(ourIndex, 1)[0];
+      const enemyFighterObj = enemyTeam.splice(enemyIndex, 1)[0];
+      
+      const ourValue = charValue(ourFighterObj.letter);
+      const enemyValue = charValue(enemyFighterObj.letter);
+      
+      const ourFighterEl = createFighter(ourFighterObj.letter, "our");
+      const enemyFighterEl = createFighter(enemyFighterObj.letter, "enemy");
+      battlefield.appendChild(ourFighterEl);
+      battlefield.appendChild(enemyFighterEl);
+      
+      ourFighterEl.offsetWidth;
+      enemyFighterEl.offsetWidth;
+      
+      ourFighterEl.classList.add("move-in");
+      enemyFighterEl.classList.add("move-in");
+      ourFighterEl.style.transform = "translateX(150px)";
+      enemyFighterEl.style.transform = "translateX(-150px)";
+      
+      setTimeout(() => {
+        if (ourValue > enemyValue) {
+          enemyFighterObj.losses++;
+          enemyFighterEl.classList.add("fall");
+          if (enemyFighterObj.losses < 2) {
+            enemyTeam.push(enemyFighterObj);
+          }
+          ourTeam.push(ourFighterObj);
+        } else if (enemyValue > ourValue) {
+          ourFighterObj.losses++;
+          ourFighterEl.classList.add("fall");
+          if (ourFighterObj.losses < 2) {
+            ourTeam.push(ourFighterObj);
+          }
+          enemyTeam.push(enemyFighterObj);
+        } else {
+          ourFighterObj.losses++;
+          enemyFighterObj.losses++;
+          ourFighterEl.classList.add("fall");
+          enemyFighterEl.classList.add("fall");
+          if (ourFighterObj.losses < 2) {
+            ourTeam.push(ourFighterObj);
+          }
+          if (enemyFighterObj.losses < 2) {
+            enemyTeam.push(enemyFighterObj);
+          }
+        }
+        
+        setTimeout(() => {
+          ourFighterEl.remove();
+          enemyFighterEl.remove();
+          simulateDoubleElimination();
+        }, 1000);
+      }, 600);
+    }
+
+    function resetBattle() {
+      battlefield.innerHTML = "";
+      ourArmyClassic = "";
+      enemyArmyClassic = "";
+      ourWins = 0;
+      enemyWins = 0;
+      round = 0;
+      totalRounds = 0;
+      ourTeam = [];
+      enemyTeam = [];
+      ourArmyOrig = "";
+      enemyArmyOrig = "";
+    }
+
+    function startBattle() {
+      resetBattle();
+      const value = testCaseSelect.value;
+      const parts = value.split(":");
+      const mode = parts[0];
+      const armies = parts[1].split("|");
+      if (mode === "classic") {
+        ourArmyClassic = armies[0];
+        enemyArmyClassic = armies[1];
+        totalRounds = Math.max(ourArmyClassic.length, enemyArmyClassic.length);
+        setTimeout(animateRoundClassic, 1000);
+      } else if (mode === "double") {
+        ourArmyOrig = armies[0];
+        enemyArmyOrig = armies[1];
+        ourTeam = ourArmyOrig.split("").map(letter => ({ letter, losses: 0 }));
+        enemyTeam = enemyArmyOrig.split("").map(letter => ({ letter, losses: 0 }));
+        setTimeout(simulateDoubleElimination, 1000);
+      }
+    }
+    
+    startBattleBtn.addEventListener("click", startBattle);
+  </script>
+</body>
+</html>
