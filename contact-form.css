@@ -1,0 +1,53 @@
+/* Style the form container */
+.form-container {
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    padding: 20px;
+    width: 350px;
+    margin: 50px auto;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the form elements */
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+    color: #444;
+}
+
+/* Style input fields and textarea */
+input, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+textarea {
+    height: 100px;
+}
+
+/* Style the button */
+button {
+    background-color: #007BFF;
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: #0056b3;
+}
