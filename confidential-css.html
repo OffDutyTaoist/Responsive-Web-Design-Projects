@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Confidential Email Page</title>
+  <style>
+    /* Main email container */
+    #email {
+      padding: 50px;
+      margin-top: 50px;
+      width: 500px;
+      border: 2px solid black;
+      box-sizing: border-box;
+    }
+    /* Both divs inside #email */
+    #confidential,
+    #top-secret {
+      display: inline-block;
+      padding: 10px;
+      margin-left: 10px;
+      border: 1px solid black;
+    }
+    /* Rotate each element */
+    #confidential {
+      transform: rotate(5deg);
+    }
+    #top-secret {
+      transform: rotate(-5deg);
+    }
+    /* Blurred text effect */
+    .blurred {
+      filter: blur(3px);
+    }
+  </style>
+</head>
+<body>
+  <main id="email">
+    <div id="confidential">
+      Confidential Info
+    </div>
+    <div id="top-secret">
+      Top Secret Data
+    </div>
+    <p>This is a paragraph with a <span class="blurred">blurred text example</span> included.</p>
+    <p>Another paragraph features a <span class="blurred">secret detail</span> that is blurred.</p>
+    <p>Yet another paragraph shows a <span class="blurred">confidential snippet</span> within the text.</p>
+  </main>
+</body>
+</html>
