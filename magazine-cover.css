@@ -1,0 +1,46 @@
+.magazine-cover {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto 1fr 1fr;
+  grid-template-areas:
+    "title title title"
+    "feature-article feature-article cover-image"
+    "small-article1 small-article2 cover-image";
+  gap: 10px;
+  width: 90vw;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Grid Area Assignments */
+.title {
+  grid-area: title;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.feature-article {
+  grid-area: feature-article;
+  background-color: #e0f7fa;
+  padding: 10px;
+}
+
+.small-article1 {
+  grid-area: small-article1;
+  background-color: #fce4ec;
+  padding: 10px;
+}
+
+.small-article2 {
+  grid-area: small-article2;
+  background-color: #fff3e0;
+  padding: 10px;
+}
+
+.cover-image {
+  grid-area: cover-image;
+  background-color: #c8e6c9;
+  padding: 10px;
+  text-align: center;
+}
